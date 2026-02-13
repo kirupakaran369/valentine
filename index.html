@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Abi ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    color: pink;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+.container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+}
+
+h1 {
+    font-size: 28px;
+    color: #ff3366;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+#yesBtn {
+    background-color: #ff4d88;
+    color: white;
+}
+
+#noBtn {
+    background-color: #999;
+    color: white;
+    position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will You Be My Valentine Abi? 💖</h1>
+    <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<script>
+
+// Floating hearts generator
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 300);
+
+// Moving NO button
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
+
+// YES clicked
+function yesClicked() {
+    document.body.innerHTML = `
+        <div style="margin-top:40vh;">
+            <h1 style="color:#ff3366;">You just made me the happiest person alive 💖</h1>
+            <p style="font-size:20px;">I promise this will be special ❤️</p>
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
