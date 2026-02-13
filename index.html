@@ -9,46 +9,44 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(to bottom right, #ffe6f0, #ffccdd);
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
 }
 
-/* Floating hearts */
-.heart {
-    position: fixed;
-    bottom: -10px;
-    color: pink;
-    font-size: 20px;
-    animation: floatUp 6s linear infinite;
-}
-
-@keyframes floatUp {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-100vh); opacity: 0; }
-}
-
+/* Center container */
 .container {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
+    position: relative;
+    z-index: 2;
 }
 
+/* Poetry text */
 h1 {
-    font-size: 28px;
     color: #ff3366;
+    font-size: 26px;
+    margin-bottom: 15px;
 }
 
+p {
+    color: #444;
+    font-size: 16px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+/* Buttons */
 button {
     padding: 15px 25px;
     font-size: 18px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     margin: 10px;
     cursor: pointer;
-    position: relative;
+    transition: 0.3s;
 }
 
 #yesBtn {
@@ -56,10 +54,29 @@ button {
     color: white;
 }
 
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
 #noBtn {
-    background-color: #999;
+    background-color: #888;
     color: white;
     position: absolute;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 18px;
+    animation: floatUp 6s linear forwards;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 0.9; }
+    100% { transform: translateY(-100vh); opacity: 0; }
 }
 </style>
 </head>
@@ -67,57 +84,76 @@ button {
 <body>
 
 <div class="container">
-    <h1>Will You Be My Valentine Abi? 💖</h1>
+    <h1>Will You Be My Valentine, Abi? 💖</h1>
+    <p>
+        I admired you quietly. <br>
+        I respected you deeply. <br>
+        I never rushed a moment. <br><br>
+        But today I choose courage over silence… ❤️
+    </p>
+
     <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
     <button id="noBtn">No 😢</button>
 </div>
 
 <script>
 
-    const noBtn = document.getElementById("noBtn");
-    let moving = false;
-    
-    function moveButton() {
-        if (moving) return;   // prevents continuous triggering
-        moving = true;
-    
-        const buttonWidth = noBtn.offsetWidth;
-        const buttonHeight = noBtn.offsetHeight;
-    
-        const maxX = window.innerWidth - buttonWidth - 20;
-        const maxY = window.innerHeight - buttonHeight - 20;
-    
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
-    
-        noBtn.style.position = "fixed";
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    
-        setTimeout(() => {
-            moving = false;
-        }, 300);
-    }
-    
-    // Desktop hover
-    noBtn.addEventListener("mouseover", moveButton);
-    
-    // Mobile touch
-    noBtn.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        moveButton();
-    });
-    
-    function yesClicked() {
-        document.body.innerHTML = `
-            <div style="margin-top:40vh; text-align:center;">
-                <h1 style="color:#ff3366;">You just made me the happiest person alive 💖</h1>
-                <p style="font-size:20px;">This is going to be beautiful ❤️</p>
+// Floating Hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 15 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 500);
+
+// Move NO button safely
+const noBtn = document.getElementById("noBtn");
+
+function moveButton() {
+    const buttonWidth = noBtn.offsetWidth;
+    const buttonHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - buttonWidth - 20;
+    const maxY = window.innerHeight - buttonHeight - 20;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveButton();
+});
+
+noBtn.addEventListener("mouseover", moveButton);
+
+// YES clicked
+function yesClicked() {
+    document.body.innerHTML = `
+        <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;background:linear-gradient(to bottom right,#ffe6f0,#ffccdd);">
+            <div>
+                <h1 style="color:#ff3366;">You just made my world brighter 💖</h1>
+                <p style="font-size:18px;color:#444;">
+                    I promise this won't just be a day… <br>
+                    It will be a beautiful beginning ❤️
+                </p>
             </div>
-        `;
-    }
-    
-    </script>
+        </div>
+    `;
+}
+</script>
 
 </body>
 </html>
